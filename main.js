@@ -1,5 +1,6 @@
 import { CategoryService } from "./services/CategoryService.js";
 import { RecipeExcerpt } from "./classes/RecipeExcerpt.js";
+import { ModalService } from "./services/ModalService.js";
 
 const recipeList = {
     domElement: document.getElementById("recipe-list"),
@@ -24,9 +25,11 @@ const recipeList = {
 }
 
 const initialize = () => {
+    document.body.appendChild(ModalService.createModalStructure())
+    ModalService.initialize();
     CategoryService.initialize(async (recipeExcerpts) => {
-        const instancedRecipeExcerpts = recipeExcerpts.map((it) => new RecipeExcerpt(it))
-        recipeList.fillAndDisplay(instancedRecipeExcerpts)
+        const instancedRecipeExcerpts = recipeExcerpts.map((it) => new RecipeExcerpt(it));
+        recipeList.fillAndDisplay(instancedRecipeExcerpts);
     });
 }
 
