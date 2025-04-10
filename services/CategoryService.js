@@ -10,8 +10,10 @@ export const CategoryService = {
     async initialize(actionOnSelect) {
         this.categories = await this.fetchCategories();
         this.fillOptions();
-        this.domElement.addEventListener("change", () => {
-            actionOnSelect(this.getRecipesForSelectedCategory);
+        this.domElement.addEventListener("change", async () => {
+            const selectedCategory = this.domElement.value;
+            const foundRecipes = await this.getRecipesForSelectedCategory(selectedCategory)
+            actionOnSelect(foundRecipes);
         })
     },
     async fetchCategories() {
@@ -34,7 +36,7 @@ export const CategoryService = {
     async getRecipesForSelectedCategory(selectedCategory) {
         return fetch(`${API_BASE_URL}${this.endpoints.getRecipesForCategory}${selectedCategory}`)
             .then((response) => response.json())
-            .then((data) => data.categories)
+            .then((data) => data.meals || [])
             .catch((error) => { alert(error); return [] })
     }
 }

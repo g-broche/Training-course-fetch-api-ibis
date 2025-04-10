@@ -38,7 +38,6 @@ body {
 
 .image-wrapper img {
     object-fit: cover;
-    width: 100%;
 }
 
 header.hero {
@@ -100,5 +99,52 @@ section#filters {
         height: 1.5rem;
         width: 1.5rem;
         fill: var(--color-orange)
+    }
+}
+
+#recipe-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
+    row-gap: var(--spacing-m);
+}
+
+article {
+    padding: var(--spacing-xs) var(--spacing-m);
+    height: 20vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-s);
+    border-radius: .5rem;
+    box-shadow: 0 0 3px 1px var(--color-grey);
+
+    & .image-wrapper {
+        width: 100%;
+        height: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & img {
+            height: 100%;
+        }
+    }
+
+    & h3 {
+        width: 100%;
+        height: 20%;
+        text-align: center;
+        line-clamp: 1;
+        color: var(--color-green);
+    }
+
+    .clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }

@@ -4,9 +4,9 @@ export class RecipeExcerpt {
     name;
     thumbnail;
     constructor({ strMeal, strMealThumb, idMeal }) {
-        this.id = this.idMeal;
+        this.id = idMeal;
         this.name = strMeal;
-        this.strMealThumb = this.thumbnail;
+        this.thumbnail = strMealThumb;
     }
     getDomElement() {
         return this.domElement;
@@ -20,9 +20,12 @@ export class RecipeExcerpt {
         thumbnailWrapper.className = "image-wrapper";
         const thumbnail = document.createElement("img");
         thumbnail.setAttribute("alt", "illustration recette");
-        thumbnail.setAttribute("src", this.strMealThumb);
+        thumbnail.setAttribute("src", this.thumbnail);
         thumbnailWrapper.appendChild(thumbnail);
         const title = document.createElement("h3");
-        this.domElement.append(thumbnailWrapper, title)
+        title.className = "clamp";
+        title.innerText = this.name;
+        this.domElement.append(thumbnailWrapper, title);
+        return this.domElement;
     }
 }
