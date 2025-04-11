@@ -18,7 +18,9 @@
     --spacing-xxl: 1.75rem;
     --spacing-xxxl: 2rem;
 
-    --font-size-base: 1rem
+    --font-size-base: 1rem;
+
+    --modal-close-size: 2rem;
 }
 
 * {
@@ -27,6 +29,20 @@
     box-sizing: border-box;
     font-size: var(--font-size-base);
     color: var(--color-green);
+}
+
+h1 {
+    font-size: calc(var(--font-size-base) * 2);
+    text-align: center;
+}
+
+h2 {
+    font-size: calc(var(--font-size-base) * 1.5);
+    text-align: center;
+}
+
+h3 {
+    font-size: calc(var(--font-size-base) * 1.25);
 }
 
 body {
@@ -110,9 +126,8 @@ section#filters {
     row-gap: var(--spacing-m);
 }
 
-article {
+article:not(.detailed-recipe) {
     padding: var(--spacing-xs) var(--spacing-m);
-    height: 20vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -123,7 +138,7 @@ article {
 
     & .image-wrapper {
         width: 100%;
-        height: 80%;
+        height: 15vh;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -170,7 +185,7 @@ article {
 }
 
 #modal-window {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -179,20 +194,116 @@ article {
     width: 90vw;
     height: 90vh;
     background-color: var(--color-white);
+    overflow-y: scroll;
 
     & #modal-close {
-        display: inherit;
         position: absolute;
-        height: 2rem;
-        width: 2rem;
         top: 1rem;
         right: 1rem;
+        border: 1px solid var(--color-orange);
+        height: var(--modal-close-size);
+        width: var(--modal-close-size);
+        color: var(--color-orange);
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 
     & #modal-content {
-        padding: var(--spacing-m);
+        margin-top: calc(var(--modal-close-size) + var(--spacing-s));
         width: 100%;
         display: flex;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    article.detailed-recipe {
+        padding: var(--spacing-m) var(--spacing-m);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-l);
+
+        & header,
+        section {
+            width: 100%;
+        }
+
+        & header {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+
+            & .meta {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            & span {
+                color: var(--color-green);
+                font-weight: bold;
+            }
+
+            & .image-wrapper {
+                width: 100%;
+                border-radius: 1rem;
+                overflow: hidden;
+
+                & img {
+                    width: 100%;
+                    border-radius: 1rem;
+                    overflow: hidden;
+                }
+            }
+
+            & .recipe-title {
+                color: var(--color-orange);
+            }
+        }
+
+        & section h3 {
+            color: var(--color-green);
+            text-decoration: underline var(--color-orange);
+        }
+
+        & section.ingredients {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-s);
+
+            & ul {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-xxs);
+            }
+
+            & li {
+                margin-left: var(--spacing-l);
+                display: grid;
+                grid-template-columns: 20px 4fr 8fr;
+                align-items: center;
+            }
+
+            & li:not(:last-child) {
+                border-bottom: 1px solid var(--color-orange);
+            }
+
+            & li::before {
+                content: "\2756";
+                color: var(--color-orange);
+            }
+        }
+
+        & section.instructions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-s);
+        }
     }
 }

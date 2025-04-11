@@ -2,6 +2,7 @@ import { CategoryService } from "./services/CategoryService.js";
 import { RecipeExcerpt } from "./classes/RecipeExcerpt.js";
 import { ModalService } from "./services/ModalService.js";
 import { RecipeService } from "./services/RecipeService.js";
+import { Recipe } from "./classes/Recipe.js";
 
 const recipeList = {
     domElement: document.getElementById("recipe-list"),
@@ -25,17 +26,14 @@ const recipeList = {
 }
 
 const initialize = () => {
-    document.body.appendChild(ModalService.createModalStructure())
+    document.body.append(...ModalService.createModalStructure())
     ModalService.initialize();
     CategoryService.initialize(async (recipeExcerpts) => {
         const instancedRecipeExcerpts = recipeExcerpts.map((it) => {
             return new RecipeExcerpt(it, async (recipeId) => {
                 const recipeDetails = await RecipeService.fetchRecipeDetails(recipeId)
-                console.log("found recipe", recipeDetails)
-                // create recipe element
-                const testDiv = document.createElement("div")
-                testDiv.innerText = recipeDetails.strInstructions
-                ModalService.appendContent(testDiv)
+                const recipe = new Recipe(recipeDetails)
+                ModalService.appendContent(recipe.createComponent())
                 ModalService.show()
             })
         });

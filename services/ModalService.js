@@ -16,14 +16,14 @@ export const ModalService = {
         this.domElements.wrapper.className = "hidden";
         this.domElements.window = document.createElement("section");
         this.domElements.window.id = "modal-window";
+        this.domElements.window.className = "hidden";
         this.domElements.buttonClose = document.createElement("button");
         this.domElements.buttonClose.id = "modal-close";
         this.domElements.buttonClose.innerText = "X";
         this.domElements.contentWrapper = document.createElement("div");
         this.domElements.contentWrapper.id = "modal-content";
         this.domElements.window.append(this.domElements.buttonClose, this.domElements.contentWrapper);
-        this.domElements.wrapper.appendChild(this.domElements.window);
-        return this.domElements.wrapper;
+        return [this.domElements.wrapper, this.domElements.window];
     },
     show() {
         this.domElements.window.classList.remove("hidden");
@@ -45,7 +45,7 @@ export const ModalService = {
     },
     appendContent(domContent) {
         this.domElements.content = domContent;
-        this.domElements.window.appendChild(domContent);
+        this.domElements.contentWrapper.appendChild(domContent);
     },
     removeContent() {
         this.domElements.content.remove();
