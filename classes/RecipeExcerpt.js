@@ -3,10 +3,12 @@ export class RecipeExcerpt {
     id;
     name;
     thumbnail;
-    constructor({ strMeal, strMealThumb, idMeal }) {
+    callBackOnAction;
+    constructor({ strMeal, strMealThumb, idMeal }, actionOnClick) {
         this.id = idMeal;
         this.name = strMeal;
         this.thumbnail = strMealThumb;
+        this.callBackOnAction = actionOnClick
     }
     getDomElement() {
         return this.domElement;
@@ -26,6 +28,9 @@ export class RecipeExcerpt {
         title.className = "clamp";
         title.innerText = this.name;
         this.domElement.append(thumbnailWrapper, title);
+        this.domElement.addEventListener("click", () => {
+            this.callBackOnAction(this.id);
+        })
         return this.domElement;
     }
 }

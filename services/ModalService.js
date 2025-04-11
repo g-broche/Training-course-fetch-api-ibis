@@ -28,10 +28,12 @@ export const ModalService = {
     show() {
         this.domElements.window.classList.remove("hidden");
         this.domElements.wrapper.classList.remove("hidden");
+        document.body.classList.add("no-scroll");
     },
     hide() {
         this.domElements.window.classList.add("hidden");
         this.domElements.wrapper.classList.add("hidden");
+        document.body.classList.remove("no-scroll");
     },
     close() {
         this.hide();
@@ -43,7 +45,7 @@ export const ModalService = {
     },
     appendContent(domContent) {
         this.domElements.content = domContent;
-        this.domElements.appendChild(domContent);
+        this.domElements.window.appendChild(domContent);
     },
     removeContent() {
         this.domElements.content.remove();
