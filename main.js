@@ -3,6 +3,7 @@ import { RecipeExcerpt } from "./classes/RecipeExcerpt.js";
 import { ModalService } from "./services/ModalService.js";
 import { RecipeService } from "./services/RecipeService.js";
 import { Recipe } from "./classes/Recipe.js";
+import { AreaService } from "./services/AreaService.js";
 
 const recipeList = {
     domElement: document.getElementById("recipe-list"),
@@ -39,6 +40,17 @@ const initialize = () => {
         });
         recipeList.fillAndDisplay(instancedRecipeExcerpts);
     });
+    AreaService.initialize(async (recipeExcerpts) => {
+        const instancedRecipeExcerpts = recipeExcerpts.map((it) => {
+            return new RecipeExcerpt(it, async (recipeId) => {
+                const recipeDetails = await RecipeService.fetchRecipeDetails(recipeId)
+                const recipe = new Recipe(recipeDetails)
+                ModalService.appendContent(recipe.createComponent())
+                ModalService.show()
+            })
+        });
+        recipeList.fillAndDisplay(instancedRecipeExcerpts);
+    })
 }
 
 initialize();
