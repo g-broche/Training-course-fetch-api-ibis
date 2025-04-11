@@ -43,9 +43,21 @@ const displayListFromResults = async (recipeExcerpts) => {
 const initialize = () => {
     document.body.append(...ModalService.createModalStructure());
     ModalService.initialize();
-    CategoryService.initialize(displayListFromResults);
-    AreaService.initialize(displayListFromResults);
-    SearchService.initialize(displayListFromResults);
+    CategoryService.initialize((recipeExcerpts) => {
+        AreaService.resetInputToDefaultValue()
+        SearchService.resetInputToDefaultValue()
+        displayListFromResults(recipeExcerpts)
+    });
+    AreaService.initialize((recipeExcerpts) => {
+        CategoryService.resetInputToDefaultValue()
+        SearchService.resetInputToDefaultValue()
+        displayListFromResults(recipeExcerpts)
+    });
+    SearchService.initialize((recipeExcerpts) => {
+        AreaService.resetInputToDefaultValue()
+        CategoryService.resetInputToDefaultValue()
+        displayListFromResults(recipeExcerpts)
+    });
 }
 
 initialize();

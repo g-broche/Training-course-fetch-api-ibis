@@ -8,11 +8,12 @@ export const AreaService = {
     },
     areas: [],
     async initialize(actionOnSelect) {
+        this.resetInputToDefaultValue();
         this.areas = await this.fetchAreas();
         this.fillOptions();
         this.domElement.addEventListener("change", async () => {
             const selectedArea = this.domElement.value;
-            const foundRecipes = await this.getRecipesForSelectedArea(selectedArea)
+            const foundRecipes = await this.getRecipesForSelectedArea(selectedArea);
             actionOnSelect(foundRecipes);
         })
     },
@@ -32,6 +33,9 @@ export const AreaService = {
             newOption.value = area.strArea;
             this.domElement.appendChild(newOption);
         })
+    },
+    resetInputToDefaultValue() {
+        this.domElement.selectedIndex = 0;
     },
     async getRecipesForSelectedArea(selectedArea) {
         return fetch(`${API_BASE_URL}${this.endpoints.getRecipesForArea}${selectedArea}`)

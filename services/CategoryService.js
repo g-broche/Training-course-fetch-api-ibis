@@ -8,6 +8,7 @@ export const CategoryService = {
     },
     categories: [],
     async initialize(actionOnSelect) {
+        this.resetInputToDefaultValue()
         this.categories = await this.fetchCategories();
         this.fillOptions();
         this.domElement.addEventListener("change", async () => {
@@ -32,6 +33,9 @@ export const CategoryService = {
             newOption.value = category.strCategory;
             this.domElement.appendChild(newOption);
         })
+    },
+    resetInputToDefaultValue() {
+        this.domElement.selectedIndex = 0
     },
     async getRecipesForSelectedCategory(selectedCategory) {
         return fetch(`${API_BASE_URL}${this.endpoints.getRecipesForCategory}${selectedCategory}`)

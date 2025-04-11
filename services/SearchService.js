@@ -9,11 +9,15 @@ export const SearchService = {
         getRecipesByNameSearch: "search.php?s="
     },
     async initialize(actionOnSearch) {
+        this.resetInputToDefaultValue();
         this.domElement.button.addEventListener("click", async () => {
             const searchString = this.domElement.input.value;
-            const foundRecipes = await this.getRecipesFromSearch(searchString)
+            const foundRecipes = await this.getRecipesFromSearch(searchString);
             actionOnSearch(foundRecipes);
         })
+    },
+    resetInputToDefaultValue() {
+        this.domElement.input.value = "";
     },
     async getRecipesFromSearch(searchString) {
         return fetch(`${API_BASE_URL}${this.endpoints.getRecipesByNameSearch}${searchString}`)
