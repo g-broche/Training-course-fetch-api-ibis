@@ -15,15 +15,31 @@ const recipeList = {
     clearList() {
         this.domElement.innerHTML = "";
     },
-    render() {
+    createMessage(message, className = null) {
+        const messageElement = document.createElement("p");
+        if (className) {
+            messageElement.className = className;
+        }
+        messageElement.innerText = message;
+        return messageElement;
+    },
+    renderErrorMessage(message) {
+        this.clearList();
+        this.domElement.appendChild(this.createMessage(message, "error"))
+    },
+    renderList() {
         this.recipeExcerpts.forEach((recipe) => {
             this.domElement.appendChild(recipe.createComponent());
         })
     },
     fillAndDisplay(recipeExcerpts) {
+        if (!recipeExcerpts || recipeExcerpts.length === 0) {
+            this.renderErrorMessage(`Aucun résultat trouvé pour cette recherche`)
+            return;
+        }
         this.setRecipeExcerpts(recipeExcerpts);
         this.clearList();
-        this.render();
+        this.renderList();
     }
 }
 
@@ -61,3 +77,12 @@ const initialize = () => {
 }
 
 initialize();
+
+
+/*
+    TO DO :
+        fix error "Uncaught (in promise) TypeError: rawData[key] is null" -> Recipe.js:26:25
+            triggered on some desserts
+
+
+ */

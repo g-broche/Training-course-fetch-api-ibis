@@ -57,6 +57,12 @@ body {
     object-fit: cover;
 }
 
+.error {
+    font-size: calc(var(--font-size-base) * 1.25);
+    color: var(--color-orange);
+    text-align: center;
+}
+
 header.hero {
     width: 100%;
     height: 100px;
@@ -85,13 +91,13 @@ section#filters {
     }
 
     & select {
-        border: 1px solid var(--color-orange);
+        border: 1px solid var(--color-grey);
         background-color: var(--color-white);
     }
 }
 
 .search-input {
-    border: 1px solid var(--color-orange);
+    border: 1px solid var(--color-grey);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -99,6 +105,11 @@ section#filters {
     & input {
         width: 100%;
         border: none;
+    }
+
+    & input:focus,
+    input:focus-visible {
+        outline: none
     }
 
     & button {
@@ -115,15 +126,30 @@ section#filters {
     & svg {
         height: 1.5rem;
         width: 1.5rem;
-        fill: var(--color-orange)
+        fill: var(--color-green)
+    }
+
+    & button:disabled svg {
+        fill: var(--color-grey-alpha)
     }
 }
+
+.search-input:has(input:focus),
+.search-input:has(input:focus-visible) {
+    border-color: var(--color-orange);
+    outline: 2px solid var(--color-orange)
+}
+
 
 #recipe-list {
     display: grid;
     grid-template-columns: 1fr;
     grid-auto-rows: 1fr;
     row-gap: var(--spacing-m);
+}
+
+select option:hover {
+    background-color: var(--color-orange);
 }
 
 article:not(.detailed-recipe) {
