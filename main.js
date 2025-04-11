@@ -4,6 +4,7 @@ import { ModalService } from "./services/ModalService.js";
 import { RecipeService } from "./services/RecipeService.js";
 import { Recipe } from "./classes/Recipe.js";
 import { AreaService } from "./services/AreaService.js";
+import { SearchService } from "./services/SearchService.js";
 
 const recipeList = {
     domElement: document.getElementById("recipe-list"),
@@ -26,31 +27,25 @@ const recipeList = {
     }
 }
 
-const initialize = () => {
-    document.body.append(...ModalService.createModalStructure())
-    ModalService.initialize();
-    CategoryService.initialize(async (recipeExcerpts) => {
-        const instancedRecipeExcerpts = recipeExcerpts.map((it) => {
-            return new RecipeExcerpt(it, async (recipeId) => {
-                const recipeDetails = await RecipeService.fetchRecipeDetails(recipeId)
-                const recipe = new Recipe(recipeDetails)
-                ModalService.appendContent(recipe.createComponent())
-                ModalService.show()
-            })
-        });
-        recipeList.fillAndDisplay(instancedRecipeExcerpts);
+const displayListFromResults = async (recipeExcerpts) => {
+    const instancedRecipeExcerpts = recipeExcerpts.map((it) => {
+        return new RecipeExcerpt(it, async (recipeId) => {
+            const recipeDetails = await RecipeService.fetchRecipeDetails(recipeId)
+            const recipe = new Recipe(recipeDetails)
+            ModalService.appendContent(recipe.createComponent())
+            ModalService.show()
+        })
     });
-    AreaService.initialize(async (recipeExcerpts) => {
-        const instancedRecipeExcerpts = recipeExcerpts.map((it) => {
-            return new RecipeExcerpt(it, async (recipeId) => {
-                const recipeDetails = await RecipeService.fetchRecipeDetails(recipeId)
-                const recipe = new Recipe(recipeDetails)
-                ModalService.appendContent(recipe.createComponent())
-                ModalService.show()
-            })
-        });
-        recipeList.fillAndDisplay(instancedRecipeExcerpts);
-    })
+    recipeList.fillAndDisplay(instancedRecipeExcerpts);
+}
+
+
+const initialize = () => {
+    document.body.append(...ModalService.createModalStructure());
+    ModalService.initialize();
+    CategoryService.initialize(displayListFromResults);
+    AreaService.initialize(displayListFromResults);
+    SearchService.initialize(displayListFromResults);
 }
 
 initialize();
