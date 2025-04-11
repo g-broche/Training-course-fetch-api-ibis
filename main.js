@@ -5,6 +5,7 @@ import { RecipeService } from "./services/RecipeService.js";
 import { Recipe } from "./classes/Recipe.js";
 import { AreaService } from "./services/AreaService.js";
 import { SearchService } from "./services/SearchService.js";
+import { IngredientService } from "./services/IngredientService.js";
 
 const recipeList = {
     domElement: document.getElementById("recipe-list"),
@@ -60,20 +61,21 @@ const initialize = () => {
     document.body.append(...ModalService.createModalStructure());
     ModalService.initialize();
     CategoryService.initialize((recipeExcerpts) => {
-        AreaService.resetInputToDefaultValue()
-        SearchService.resetInputToDefaultValue()
-        displayListFromResults(recipeExcerpts)
+        AreaService.resetInputToDefaultValue();
+        SearchService.resetInputToDefaultValue();
+        displayListFromResults(recipeExcerpts);
     });
     AreaService.initialize((recipeExcerpts) => {
-        CategoryService.resetInputToDefaultValue()
-        SearchService.resetInputToDefaultValue()
-        displayListFromResults(recipeExcerpts)
+        CategoryService.resetInputToDefaultValue();
+        SearchService.resetInputToDefaultValue();
+        displayListFromResults(recipeExcerpts);
     });
     SearchService.initialize((recipeExcerpts) => {
-        AreaService.resetInputToDefaultValue()
-        CategoryService.resetInputToDefaultValue()
-        displayListFromResults(recipeExcerpts)
+        AreaService.resetInputToDefaultValue();
+        CategoryService.resetInputToDefaultValue();
+        displayListFromResults(recipeExcerpts);
     });
+    IngredientService.initialize();
 }
 
 initialize();
@@ -81,8 +83,14 @@ initialize();
 
 /*
     TO DO :
+        finish implementation ingredient
+
         fix error "Uncaught (in promise) TypeError: rawData[key] is null" -> Recipe.js:26:25
             triggered on some desserts
+
+        design
+
+        responsive
 
 
  */

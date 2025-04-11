@@ -38,6 +38,7 @@ export const SearchService = {
     },
     resetInputToDefaultValue() {
         this.domElement.input.value = "";
+        this.toggleButton(false)
     },
     toggleButton(mustBeEnabled) {
         this.domElement.button.disabled = mustBeEnabled ? false : true;

@@ -1,5 +1,6 @@
 import { RecipeExcerpt } from "./RecipeExcerpt.js";
 import { StringService } from "../services/StringService.js";
+import { IngredientService } from "../services/IngredientService.js";
 
 export class Recipe extends RecipeExcerpt {
     category;
@@ -17,9 +18,9 @@ export class Recipe extends RecipeExcerpt {
         this.area = rawRecipeData.strArea;
         this.instructions = rawRecipeData.strInstructions;
         this.video = rawRecipeData.strYoutube;
-        this.ingredients = this.mergeApiIngredientsAndMeasures(rawRecipeData);
+        this.ingredients = this.getCompleteIngredientData(rawRecipeData);
     }
-    mergeApiIngredientsAndMeasures(rawData) {
+    getCompleteIngredientData(rawData) {
         let ingredients = [];
         for (const key in rawData) {
             if (Object.prototype.hasOwnProperty.call(rawData, key)) {
@@ -38,6 +39,13 @@ export class Recipe extends RecipeExcerpt {
         this.domElement = document.createElement("article");
         this.domElement.className = "detailed-recipe"
 
+        const recipeHeader = this.createComponentHeader();
+        const ingredientSection = this.createComponentIngredient();
+        const instructionSection = this.createComponentInstructions();
+        this.domElement.append(recipeHeader, ingredientSection, instructionSection);
+        return this.domElement;
+    }
+    createComponentHeader() {
         const recipeHeader = document.createElement("header");
         const metaData = document.createElement("div");
         metaData.className = "meta";
@@ -55,8 +63,10 @@ export class Recipe extends RecipeExcerpt {
         const title = document.createElement("h2");
         title.className = "recipe-title";
         title.innerText = this.name;
-        recipeHeader.append(metaData, thumbnailWrapper, title)
-
+        recipeHeader.append(metaData, thumbnailWrapper, title);
+        return recipeHeader;
+    }
+    createComponentIngredient() {
         const ingredientWrapper = document.createElement("section");
         ingredientWrapper.className = "ingredients";
         const ingredientTitle = document.createElement("h3");
@@ -65,15 +75,20 @@ export class Recipe extends RecipeExcerpt {
         const ingredientNodes = this.ingredients.map((ingredient) => {
             const ingredientItem = document.createElement("li");
             const ingredientName = document.createElement("span");
+            ingredientName.className = "ingredient-name";
             ingredientName.innerText = ingredient.name;
             const ingredientMeasure = document.createElement("span");
             ingredientMeasure.innerText = ingredient.measure;
-            ingredientItem.append(ingredientMeasure, ingredientName);
+            const ingredientDetails = IngredientService.getIngredientByName(ingredient.name).createComponent()
+            console.log(ingredientDetails)
+            ingredientItem.append(ingredientMeasure, ingredientName, ingredientDetails);
             return ingredientItem;
         })
         ingredientList.append(...ingredientNodes);
         ingredientWrapper.append(ingredientTitle, ingredientList);
-
+        return ingredientWrapper;
+    }
+    createComponentInstructions() {
         const instructionWrapper = document.createElement("section");
         instructionWrapper.className = "instructions";
         const instructionTitle = document.createElement("h3");
@@ -82,8 +97,6 @@ export class Recipe extends RecipeExcerpt {
         instructions.className = "recipe-instructions";
         instructions.innerHTML = StringService.formatLineBreaksfromApiString(this.instructions);
         instructionWrapper.append(instructionTitle, instructions);
-
-        this.domElement.append(recipeHeader, ingredientWrapper, instructionWrapper);
-        return this.domElement;
+        return instructionWrapper;
     }
 }
