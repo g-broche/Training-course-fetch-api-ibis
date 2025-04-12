@@ -11,11 +11,12 @@
 
 <body>
     <header class="hero">
-        <!-- <div class="image-wrapper">
-            <img src="/assets/images/logo.png" alt="site logo">
-        </div> -->
+        <div class="image-wrapper">
+            <img src="/assets/images/logo-no-alpha.webp" alt="site logo">
+        </div>
     </header>
     <main>
+        <h1>Le portail vers des recettes bonnes et saines</h1>
         <section id="filters">
             <div class="input-group">
                 <label for="category-selector">Filtrer par catégories</label>
@@ -31,7 +32,7 @@
             </div>
             <div class="input-group">
                 <label for="recipe-search-input">Chercher à partir d'un ingrédient</label>
-                <div class="search-input">
+                <div class="search-input makeshift-select">
                     <input id="recipe-search-input" type="text" placeholder="Entrez un nom d'ingrédient">
                     <button id="recipe-search-button" class="svg-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px" height="50px">
@@ -46,6 +47,15 @@
 
         </section>
     </main>
+    <footer id="page-footer">
+        <h2>Contactez-nous</h2>
+        <form>
+            <input name="user-name" type="text" placeholder="Votre nom">
+            <input name="user-email" type="text" placeholder="Votre email">
+            <textarea name="user-message" placeholder="Votre message"></textarea>
+            <button type="submit" name="submit-contact">Envoyer</button>
+        </form>
+    </footer>
 </body>
 
 </html>

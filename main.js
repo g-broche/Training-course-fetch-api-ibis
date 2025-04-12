@@ -84,8 +84,6 @@ initialize();
 /*
     TO DO :
 
-        fonts
-
         design
 
         responsive

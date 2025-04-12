@@ -1,13 +1,12 @@
 :root {
-    /* Vert nature (#4CAF50) : Représente la fraîcheur et la santé.
-    Orange vitaminé (#FF9800) : Inspire l’énergie et l’équilibre.
-    Blanc pur (#FFFFFF) : Symbolise la clarté et la simplicité.
-    Gris doux (#9E9E9E) : Apporte une touche de modernité et d’élégance. */
     --color-green: #4CAF50;
     --color-orange: #FF9800;
     --color-white: #FFFFFF;
     --color-grey: #9E9E9E;
     --color-grey-alpha: #9e9e9e5b;
+    --color-black: #000;
+
+    --logo-size-mobile: 75px;
 
     --spacing-xxs: .25rem;
     --spacing-xs: .5rem;
@@ -48,6 +47,33 @@
     font-family: var(--font-family-regular);
 }
 
+::placeholder,
+select option:disabled {
+    color: var(--color-grey) !important;
+    opacity: 1 !important;
+}
+
+input,
+textarea,
+select,
+option {
+    color: var(--color-black);
+}
+
+select,
+input,
+textarea,
+.makeshift-select {
+    border: 1px solid var(--color-orange);
+    background-color: var(--color-white);
+}
+
+select,
+input,
+textarea {
+    padding: var(--spacing-xxs) var(--spacing-xs);
+}
+
 h1,
 h2,
 h3,
@@ -55,11 +81,15 @@ h4,
 h5,
 h6 {
     font-family: var(--font-family-header);
+    font-weight: bold;
 }
 
 h1 {
-    font-size: calc(var(--font-size-base) * 2);
+    margin-top: var(--spacing-m);
+    font-size: calc(var(--font-size-base) * 1.75);
     text-align: center;
+    color: var(--color-green);
+    text-shadow: 1px 1px 0px var(--color-orange);
 }
 
 h2 {
@@ -77,15 +107,23 @@ h4 {
 
 body {
     width: 100%;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: var(--color-white);
 }
 
+main {
+    width: 100%;
+    min-height: 100vh;
+}
+
 button:not(:disabled):hover,
 select:not(:disabled):hover {
     cursor: pointer;
+}
+
+textarea {
+    resize: none;
 }
 
 .image-wrapper {
@@ -107,9 +145,26 @@ select:not(:disabled):hover {
 }
 
 header.hero {
+    position: relative;
     width: 100%;
-    height: 100px;
+    height: 200px;
     background-color: var(--color-green);
+    background-image: url("/assets/images/banner-mobile.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: right;
+
+    & .image-wrapper {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        height: var(--logo-size-mobile);
+        width: var(--logo-size-mobile);
+
+        & img {
+            width: 100%;
+        }
+    }
 }
 
 main>section {
@@ -122,31 +177,14 @@ section#filters {
     flex-direction: column;
     gap: var(--spacing-xl);
 
-    select,
-    input {
-        padding: var(--spacing-xxs) var(--spacing-m);
-    }
-
-    select,
-    select option,
-    input {
-        color: var(--color-orange);
-    }
-
     & .input-group {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-xs);
     }
-
-    & select {
-        border: 1px solid var(--color-grey);
-        background-color: var(--color-white);
-    }
 }
 
 .search-input {
-    border: 1px solid var(--color-grey);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -183,9 +221,9 @@ section#filters {
     }
 }
 
-.search-input:has(input:focus),
-.search-input:has(input:focus-visible) {
-    border-color: var(--color-orange);
+.search-input:has(input:focus-visible),
+input:focus-visible,
+textarea:focus-visible {
     outline: 2px solid var(--color-orange)
 }
 
@@ -421,6 +459,46 @@ article:not(.detailed-recipe):hover {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-s);
+        }
+    }
+}
+
+footer#page-footer {
+    margin-top: auto;
+    padding: var(--spacing-xl) 10%;
+    width: 100%;
+    background-color: var(--color-green);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-l);
+
+    & h2 {
+        color: var(--color-white);
+    }
+
+    & form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-m);
+
+        & input,
+        textarea {
+            width: 100%;
+        }
+
+        & textarea {
+            height: 5rem;
+        }
+
+        & button {
+            border: none;
+            border-radius: .5rem;
+            width: fit-content;
+            padding: var(--spacing-xs) var(--spacing-m);
+            background-color: var(--color-orange);
+            color: var(--color-white);
         }
     }
 }
