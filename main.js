@@ -56,7 +56,6 @@ const displayListFromResults = async (recipeExcerpts) => {
     recipeList.fillAndDisplay(instancedRecipeExcerpts);
 }
 
-
 const initialize = () => {
     document.body.append(...ModalService.createModalStructure());
     ModalService.initialize();
@@ -84,9 +83,11 @@ initialize();
 /*
     TO DO :
 
-        design
+        responsive header
+        
+        responsive modal and ingredient detail
 
-        responsive
+        jsdocs
 
-
- */
+        readme
+*/
