@@ -19,8 +19,24 @@
     --spacing-xxxl: 2rem;
 
     --font-size-base: 1rem;
+    --font-family-regular: "open_sans";
+    --font-family-header: "montserrat";
 
     --modal-close-size: 2rem;
+}
+
+@font-face {
+    font-family: 'open_sans';
+    src: url('/assets/fonts/OpenSans-Regular.woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'montserrat';
+    src: url('/assets/fonts/Montserrat-Regular.otf');
+    font-weight: normal;
+    font-style: normal;
 }
 
 * {
@@ -29,6 +45,16 @@
     box-sizing: border-box;
     font-size: var(--font-size-base);
     color: var(--color-green);
+    font-family: var(--font-family-regular);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-family-header);
 }
 
 h1 {

@@ -84,10 +84,6 @@ initialize();
 /*
     TO DO :
 
-
-        fix error "Uncaught (in promise) TypeError: rawData[key] is null" -> Recipe.js:26:25
-            triggered on some desserts
-
         fonts
 
         design
