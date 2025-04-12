@@ -18,9 +18,8 @@ export class Ingredient {
         const imageWrapper = document.createElement("div");
         imageWrapper.className = "image-wrapper";
         const image = document.createElement("img");
-        console.log(this.thumbnail)
         image.setAttribute("src", this.thumbnail);
-        image.setAttribute("alt", `image ${this.name}`);
+        image.setAttribute("alt", `image pour ${this.name} non fournie`);
         imageWrapper.appendChild(image);
         const description = document.createElement("p");
         description.innerText = this.description;

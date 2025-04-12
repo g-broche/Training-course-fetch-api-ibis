@@ -57,8 +57,21 @@ body {
     background-color: var(--color-white);
 }
 
+button:not(:disabled):hover,
+select:not(:disabled):hover {
+    cursor: pointer;
+}
+
+.image-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .image-wrapper img {
     object-fit: cover;
+    text-align: center;
 }
 
 .error {
@@ -334,6 +347,7 @@ article:not(.detailed-recipe):hover {
                     position: absolute;
                     z-index: 10;
                     top: 125%;
+                    border-radius: 1rem;
                     width: 100%;
                     padding: var(--spacing-xs);
                     display: none;
@@ -341,29 +355,25 @@ article:not(.detailed-recipe):hover {
                     align-items: center;
                     gap: var(--spacing-xs);
                     background-color: var(--color-white);
-                    box-shadow: 0 0 5px 5px var(--color-grey);
+                    box-shadow: 0 0 4px 4px var(--color-orange);
 
                     & h4 {
                         color: var(--color-orange);
                     }
-                }
 
-                & .ingredient-name {
-                    position: relative;
+                    & .image-wrapper {
+                        width: 50%;
+
+                        & img {
+                            width: 100%;
+                        }
+                    }
                 }
 
                 & .ingredient-name:hover {
                     cursor: pointer;
                     font-weight: bold;
-                }
-
-                & .ingredient-name:hover::before {
-                    position: absolute;
-                    top: -50%;
-                    left: -1.75rem;
-                    content: "\27A9";
-                    font-size: calc(var(--font-size-base) * 1.5);
-                    color: var(--color-orange);
+                    color: var(--color-orange)
                 }
 
                 & .ingredient-name:hover+.ingredient-details {

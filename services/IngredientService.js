@@ -10,7 +10,6 @@ export const IngredientService = {
     ingredients: [],
     async initialize() {
         this.ingredients = await this.fetchIngredientList();
-        console.log(this.ingredients)
     },
     async fetchIngredientList() {
         return fetch(`${API_BASE_URL}${this.endpoints.getIngredientList}`)
@@ -28,7 +27,7 @@ export const IngredientService = {
             .catch((error) => { alert(error); return null })
     },
     getIngredientByName(ingredientName) {
-        return this.ingredients.find((ingredient) => ingredient.name === ingredientName)
+        return this.ingredients.find((ingredient) => ingredient.name.toLowerCase() === ingredientName.toLowerCase())
     },
     getIngredientThumbnailPath(ingredientName) {
         const sluggifiedName = ingredientName.toLowerCase().replace(" ", "-")

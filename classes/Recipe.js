@@ -22,9 +22,21 @@ export class Recipe extends RecipeExcerpt {
     }
     getCompleteIngredientData(rawData) {
         let ingredients = [];
+        console.log(rawData)
         for (const key in rawData) {
-            if (Object.prototype.hasOwnProperty.call(rawData, key)) {
+            if (
+                Object.prototype.hasOwnProperty.call(rawData, key)
+                && key.includes("strIngredient")
+                && rawData[key]
+                && rawData[key].length > 0
+            ) {
+                console.log(`key: ${key}`)
                 if (key.includes("strIngredient") && rawData[key].length > 0) {
+                    console.log(`key: ${key};
+                        ingredient: ${rawData[key]};
+                        number: ${key.split("strIngredient")[1]};
+                        key: ${key};
+                        measure: ${rawData[`strMeasure${key.split("strIngredient")[1]}`]}`)
                     const ingredient = rawData[key];
                     const ingredientNumber = key.split("strIngredient")[1];
                     const measure = rawData[`strMeasure${ingredientNumber}`]
@@ -72,21 +84,26 @@ export class Recipe extends RecipeExcerpt {
         const ingredientTitle = document.createElement("h3");
         ingredientTitle.innerText = "Ingrédients :";
         const ingredientList = document.createElement("ul");
-        const ingredientNodes = this.ingredients.map((ingredient) => {
-            const ingredientItem = document.createElement("li");
-            const ingredientName = document.createElement("span");
-            ingredientName.className = "ingredient-name";
-            ingredientName.innerText = ingredient.name;
-            const ingredientMeasure = document.createElement("span");
-            ingredientMeasure.innerText = ingredient.measure;
-            const ingredientDetails = IngredientService.getIngredientByName(ingredient.name).createComponent()
-            console.log(ingredientDetails)
-            ingredientItem.append(ingredientMeasure, ingredientName, ingredientDetails);
-            return ingredientItem;
-        })
+        const ingredientNodes = this.ingredients.map((ingredient) => this.createComponentIngredientDetail(ingredient))
         ingredientList.append(...ingredientNodes);
         ingredientWrapper.append(ingredientTitle, ingredientList);
         return ingredientWrapper;
+    }
+    createComponentIngredientDetail(ingredient) {
+        const ingredientItem = document.createElement("li");
+        const ingredientName = document.createElement("span");
+        ingredientName.className = "ingredient-name";
+        ingredientName.innerText = ingredient.name;
+        const ingredientMeasure = document.createElement("span");
+        ingredientMeasure.innerText = ingredient.measure;
+        try {
+            const ingredientDetails = IngredientService.getIngredientByName(ingredient.name).createComponent()
+            ingredientItem.append(ingredientMeasure, ingredientName, ingredientDetails);
+        } catch (error) {
+            ingredientItem.append(ingredientMeasure, ingredientName);
+            console.log(error.message)
+        }
+        return ingredientItem;
     }
     createComponentInstructions() {
         const instructionWrapper = document.createElement("section");
