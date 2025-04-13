@@ -21,7 +21,11 @@ export const AreaService = {
         return fetch(`${API_BASE_URL}${this.endpoints.getAvailableAreas}`)
             .then((response) => response.json())
             .then((data) => data.meals)
-            .catch((error) => { alert(error); return [] })
+            .catch((error) => {
+                console.log(error)
+                alert("une erreur a eu lieu en récupérant les origines géographiques des recettes");
+                return [];
+            })
     },
     clearOptions() {
         this.domElement.innerHTML = "";
@@ -41,6 +45,10 @@ export const AreaService = {
         return fetch(`${API_BASE_URL}${this.endpoints.getRecipesForArea}${selectedArea}`)
             .then((response) => response.json())
             .then((data) => data.meals || [])
-            .catch((error) => { alert(error); return [] })
+            .catch((error) => {
+                console.log(error)
+                alert(`une erreur a eu lieu en récupérant les recette pour ${selectedArea}`);
+                return [];
+            })
     }
 }

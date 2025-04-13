@@ -8,25 +8,19 @@ import { SearchService } from "./services/SearchService.js";
 import { IngredientService } from "./services/IngredientService.js";
 
 const recipeList = {
+    domMessage: document.getElementById("message-feedback"),
     domElement: document.getElementById("recipe-list"),
     recipeExcerpts: [],
     setRecipeExcerpts(recipeExcerpts) {
         this.recipeExcerpts = recipeExcerpts;
     },
     clearList() {
+        this.domMessage.innerHTML = "";
+        console.log(this.domMessage.innerText)
         this.domElement.innerHTML = "";
     },
-    createMessage(message, className = null) {
-        const messageElement = document.createElement("p");
-        if (className) {
-            messageElement.className = className;
-        }
-        messageElement.innerText = message;
-        return messageElement;
-    },
     renderErrorMessage(message) {
-        this.clearList();
-        this.domElement.appendChild(this.createMessage(message, "error"))
+        this.domMessage.innerText = message;
     },
     renderList() {
         this.recipeExcerpts.forEach((recipe) => {
@@ -34,26 +28,33 @@ const recipeList = {
         })
     },
     fillAndDisplay(recipeExcerpts) {
+        this.clearList();
         if (!recipeExcerpts || recipeExcerpts.length === 0) {
             this.renderErrorMessage(`Aucun résultat trouvé pour cette recherche`)
             return;
         }
         this.setRecipeExcerpts(recipeExcerpts);
-        this.clearList();
         this.renderList();
     }
 }
 
 const displayListFromResults = async (recipeExcerpts) => {
-    const instancedRecipeExcerpts = recipeExcerpts.map((it) => {
-        return new RecipeExcerpt(it, async (recipeId) => {
-            const recipeDetails = await RecipeService.fetchRecipeDetails(recipeId)
-            const recipe = new Recipe(recipeDetails)
-            ModalService.appendContent(recipe.createComponent())
-            ModalService.show()
-        })
-    });
-    recipeList.fillAndDisplay(instancedRecipeExcerpts);
+    try {
+        const instancedRecipeExcerpts = recipeExcerpts.map((it) => {
+            return new RecipeExcerpt(it, async (recipeId) => {
+                const recipeDetails = await RecipeService.fetchRecipeDetails(recipeId)
+                const recipe = new Recipe(recipeDetails)
+                ModalService.appendContent(recipe.createComponent())
+                ModalService.show()
+            })
+        });
+        recipeList.fillAndDisplay(instancedRecipeExcerpts);
+    } catch (error) {
+        recipeList.clearList();
+        recipeList.renderErrorMessage("Une erreur a eu lieu durant le traitement de la requête");
+        console.log(error);
+    }
+
 }
 
 const initialize = () => {
@@ -81,12 +82,7 @@ initialize();
 
 
 /*
-    TO DO :
-
-        responsive header
-        
-        responsive modal and ingredient detail
-
+    TO DO : 
         jsdocs
 
         readme

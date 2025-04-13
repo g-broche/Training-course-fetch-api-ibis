@@ -41,6 +41,10 @@ export const CategoryService = {
         return fetch(`${API_BASE_URL}${this.endpoints.getRecipesForCategory}${selectedCategory}`)
             .then((response) => response.json())
             .then((data) => data.meals || [])
-            .catch((error) => { alert(error); return [] })
+            .catch((error) => {
+                console.log(error)
+                alert("une erreur a eu lieu en récupérant les informations");
+                return [];
+            })
     }
 }

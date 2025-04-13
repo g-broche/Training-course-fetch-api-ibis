@@ -47,6 +47,10 @@ export const SearchService = {
         return fetch(`${API_BASE_URL}${this.endpoints.getRecipesByNameSearch}${searchString}`)
             .then((response) => response.json())
             .then((data) => data.meals || [])
-            .catch((error) => { alert(error); return [] })
+            .catch((error) => {
+                console.log(error)
+                alert(`une erreur a eu lieu en récupérant les recette pour "${searchString}"`);
+                return [];
+            })
     }
 }
