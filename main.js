@@ -7,6 +7,9 @@ import { AreaService } from "./services/AreaService.js";
 import { SearchService } from "./services/SearchService.js";
 import { IngredientService } from "./services/IngredientService.js";
 
+/**
+ * Object encompassing the logic for managing the display of the list of recipes 
+ */
 const recipeList = {
     domMessage: document.getElementById("message-feedback"),
     domElement: document.getElementById("recipe-list"),
@@ -38,6 +41,11 @@ const recipeList = {
     }
 }
 
+/**
+ * Function that will take in the list of recipe data as provided by the API to then
+ * convert them into Recipe instance and add the results into the dom.
+ * @param {*} recipeExcerpts 
+ */
 const displayListFromResults = async (recipeExcerpts) => {
     try {
         const instancedRecipeExcerpts = recipeExcerpts.map((it) => {
@@ -57,6 +65,10 @@ const displayListFromResults = async (recipeExcerpts) => {
 
 }
 
+/**
+ * Initializes the multiple services used in app and providing them with their callbacks
+ * to call when their respective action is triggered
+ */
 const initialize = () => {
     document.body.append(...ModalService.createModalStructure());
     ModalService.initialize();
@@ -79,11 +91,3 @@ const initialize = () => {
 }
 
 initialize();
-
-
-/*
-    TO DO : 
-        jsdocs
-
-        readme
-*/

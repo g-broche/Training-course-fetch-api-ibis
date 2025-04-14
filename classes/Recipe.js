@@ -2,12 +2,19 @@ import { RecipeExcerpt } from "./RecipeExcerpt.js";
 import { StringService } from "../services/StringService.js";
 import { IngredientService } from "../services/IngredientService.js";
 
+/**
+ * Class with properties and methods related to recipes
+ */
 export class Recipe extends RecipeExcerpt {
     category;
     area;
     instructions;
     ingredients;
     video;
+    /**
+     * instanciate a new Recipe directly from the data provided by the API response
+     * @param {*} rawRecipeData 
+     */
     constructor(rawRecipeData) {
         super({
             strMeal: rawRecipeData.strMeal,
@@ -20,6 +27,12 @@ export class Recipe extends RecipeExcerpt {
         this.video = rawRecipeData.strYoutube;
         this.ingredients = this.getCompleteIngredientData(rawRecipeData);
     }
+    /**
+     * parses the raw data of the recipe to return an list of object containing each ingredient name
+     * and its quantity required for the recipe
+     * @param {*} rawData 
+     * @returns
+     */
     getCompleteIngredientData(rawData) {
         let ingredients = [];
         console.log(rawData)
@@ -30,13 +43,7 @@ export class Recipe extends RecipeExcerpt {
                 && rawData[key]
                 && rawData[key].length > 0
             ) {
-                console.log(`key: ${key}`)
                 if (key.includes("strIngredient") && rawData[key].length > 0) {
-                    console.log(`key: ${key};
-                        ingredient: ${rawData[key]};
-                        number: ${key.split("strIngredient")[1]};
-                        key: ${key};
-                        measure: ${rawData[`strMeasure${key.split("strIngredient")[1]}`]}`)
                     const ingredient = rawData[key];
                     const ingredientNumber = key.split("strIngredient")[1];
                     const measure = rawData[`strMeasure${ingredientNumber}`]
@@ -47,6 +54,10 @@ export class Recipe extends RecipeExcerpt {
         ingredients.sort((a, b) => a.name.localeCompare(b.name))
         return ingredients;
     }
+    /**
+     * creates the component in the dom containing the data related to the recipe.
+     * @returns returns the article containing the detailed information about the recipe
+     */
     createComponent() {
         this.domElement = document.createElement("article");
         this.domElement.className = "detailed-recipe"
@@ -89,6 +100,11 @@ export class Recipe extends RecipeExcerpt {
         ingredientWrapper.append(ingredientTitle, ingredientList);
         return ingredientWrapper;
     }
+    /**
+     * creates a list item with the ingredient and quantity required
+     * @param {*} ingredient 
+     * @returns 
+     */
     createComponentIngredientDetail(ingredient) {
         const ingredientItem = document.createElement("li");
         const ingredientName = document.createElement("span");
@@ -97,6 +113,8 @@ export class Recipe extends RecipeExcerpt {
         const ingredientMeasure = document.createElement("span");
         ingredientMeasure.innerText = ingredient.measure;
         try {
+            // adds a separate dom element intended to display the details of each ingredient when hovering
+            // on the ingredient name
             const ingredientDetails = IngredientService.getIngredientByName(ingredient.name).createComponent()
             ingredientItem.append(ingredientMeasure, ingredientName, ingredientDetails);
         } catch (error) {
